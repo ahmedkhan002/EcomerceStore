@@ -8,6 +8,7 @@ import Header from './components/header/Header'
 import Footer from './components/footer/Footer'
 import CustomSeparator from './CustomSeparator'
 import ProductCard from './pages/ProductCard'
+import ScrollToTop from './hooks/ScrollToTop'
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
     <Header />
      <div className='mx-4 sm:mx-[5vw] md:mx-[7vw] lg:mx-[8vw]'>
       <CustomSeparator />
+      <ScrollToTop />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/collection" element={<Collection />} />

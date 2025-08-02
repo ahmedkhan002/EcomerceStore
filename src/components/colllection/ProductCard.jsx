@@ -17,15 +17,24 @@ const ProductCard = ({ productKey, productValue, layout }) => {
     const [itemsPerPage, setitemsPerPage] = useState(10);
 
 
-   const filteredProducts = product.filter((item) => {
-    if (!filtertype || !filtervalue) return true; 
-    return item[filtertype] === filtervalue;
-});
-// useEffect(() => {
-//     console.log(filtertype, filtervalue, filteredProducts);
-// }, [filtertype, filtervalue, filteredProducts]);
+    const filters = useSelector((state) => state.filterbar.filters);
 
-    
+    const filteredProducts = product.filter((item) => {
+        const { category, subcategories, brands, features, condition, rating, priceRange } = filters;
+
+        return (
+            (!category || item.category === category) &&
+            (subcategories.length === 0 || subcategories.includes(item.subcategory)) &&
+            (brands.length === 0 || brands.includes(item.brand)) &&
+            (features.length === 0 || features.includes(item.feature)) &&
+            (condition === 'any' || item.condition === condition) &&
+            (!rating || item.rating >= rating) &&
+            item.discountedPrice >= priceRange[0] &&
+            item.discountedPrice <= priceRange[1]
+        );
+    });
+
+
     const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
 
     const currentItems = filteredProducts.slice(

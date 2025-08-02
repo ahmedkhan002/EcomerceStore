@@ -13,7 +13,7 @@ import NewsLetter from '../components/home/NewsLetter';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useRef } from 'react';
-import { removefilteritems, filteritemtype } from '../ReduxStore/counter/filterbar'
+import { setFilter, toggleArrayFilter, resetFilters } from '../ReduxStore/counter/filterbar';
 import { productData } from '../api/productData';
 
 
@@ -32,7 +32,7 @@ export default function collection() {
     if (filtervalue && filtervalue.length > 0) {
       setproductValue(filtervalue[0])
       seproductKey('subcategory')
-    } else if(filtervalue.length <= 0){
+    } else if(filtervalue?.length <= 0){
       seproductKey("quantity")
       setproductValue(1)
     }
@@ -47,23 +47,21 @@ export default function collection() {
     setActiveDropdown(activeDropdown === dropdown ? false : dropdown);
   };
 
-  const handleFilterCat = (item) => {
-    if(item === 'All Categories'){
-      setfilterCategory('Electronics')
-      seproductKey('quantity')
-      setproductValue(1)
-      // dispatch(filteritemtype('All Categories'))
-    }else{
-      seproductKey('category')
-      setproductValue(item)
-      setfilterCategory(item)
-      dispatch(filteritemtype(item))
-    }
-    
-    
-    
-    setActiveDropdown(true)
-  };
+const handleFilterCat = (item) => {
+  if (item === 'All Categories') {
+    setfilterCategory('Electronics');
+    seproductKey('quantity');
+    setproductValue(1);
+    dispatch(setFilter({ key: 'category', value: null })); // Reset category
+  } else {
+    seproductKey('category');
+    setproductValue(item);
+    setfilterCategory(item);
+    dispatch(setFilter({ key: 'category', value: item })); // Set selected category
+  }
+  setActiveDropdown(true);
+};
+
 
   const handleSort = (item) => {
     setActiveDropdown(!activeDropdown)

@@ -1,29 +1,38 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { productData as product } from '../../api/productData'
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  producttype: ['quantity'],
-  productvalue: [1],
-  products: product
-}
+  filters: {
+    category: null,
+    subcategories: [],
+    brands: [],
+    features: [],
+    condition: 'any',
+    rating: null,
+    priceRange: [0, 1000],
+  },
+};
 
-export const filterbar = createSlice({
-  name: 'counter',
+const filterbar = createSlice({
+  name: 'filterbar',
   initialState,
   reducers: {
-    filteritemtype: (state, action) => {
-      state.producttype = action.payload
+    setFilter: (state, action) => {
+      const { key, value } = action.payload;
+      state.filters[key] = value;
     },
-    filteritems: (state, action) => {
-      state.productvalue = action.payload
+    toggleArrayFilter: (state, action) => {
+      const { key, value } = action.payload;
+      if (state.filters[key].includes(value)) {
+        state.filters[key] = state.filters[key].filter((v) => v !== value);
+      } else {
+        state.filters[key].push(value);
+      }
     },
-    removefilteritems: (state, action) => {
-      state.productvalue = state.productvalue.filter((item) => item !== action.payload)
+    resetFilters: (state) => {
+      state.filters = initialState.filters;
     },
-
   },
-})
+});
 
-export const { filteritems, removefilteritems, filteritemtype} = filterbar.actions
-
-export default filterbar.reducer
+export const { setFilter, toggleArrayFilter, resetFilters } = filterbar.actions;
+export default filterbar.reducer;

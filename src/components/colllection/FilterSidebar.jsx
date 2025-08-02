@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp, Star } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { filteritems, filteritemtype } from "../../ReduxStore/counter/filterbar";
+import { setFilter, toggleArrayFilter } from "../../ReduxStore/counter/filterbar";
 import { productData } from "../../api/productData";
 import RangeSlider from "./RangeSlider";
 import {
@@ -29,7 +29,7 @@ const FilterSidebar = ({ filterCategory = "Electronics" }) => {
   // 2️⃣ State to manage all filters
   const [filters, setFilters] = useState({
     subcategories: [],
-    brand: [],
+    brands: [],
     features: [],
     condition: "any",
     rating: null,
@@ -39,7 +39,7 @@ const FilterSidebar = ({ filterCategory = "Electronics" }) => {
   // 3️⃣ Expand/collapse UI sections
   const [expanded, setExpanded] = useState({
     category: true,
-    brand: true,
+    brands: true,
     features: true,
     priceRange: true,
     condition: true,
@@ -51,40 +51,35 @@ const FilterSidebar = ({ filterCategory = "Electronics" }) => {
   };
 
   // 4️⃣ Generic checkbox toggle handler
-  const handleCheckboxChange = (type, value) => {
-    dispatch(filteritemtype(type))
-    dispatch(filteritems(value))
+  const handleCheckboxChange = (key, value) => {
+    setFilters((prev) => {
+      const newArray = prev[key].includes(value)
+        ? prev[key].filter((v) => v !== value)
+        : [...prev[key], value];
+      return { ...prev, [key]: newArray };
+    });
+
+    dispatch(toggleArrayFilter({ key, value }));
   };
 
   // 5️⃣ Condition & Rating
   const handleConditionChange = (e) => {
     const value = e.target.value;
-    setFilters((prev) => ({ ...prev, condition: value })); 
-
-    if (value !== "any") {
-      dispatch(filteritemtype("condition"));
-      dispatch(filteritems(value));
-    }
-    // If "any", do nothing to Redux to preserve other filters
+    setFilters((prev) => ({ ...prev, condition: value }));
+    dispatch(setFilter({ key: "condition", value }));
   };
 
 
   const handleRatingChange = (rating) => {
-    const newFilters = {
-      ...filters,
-      rating: filters.rating === rating ? null : rating,
-    };
-    setFilters(newFilters);
-       dispatch(filteritemtype("rating"));
-      dispatch(filteritems(rating));
+    const newValue = filters.rating === rating ? null : rating;
+    setFilters((prev) => ({ ...prev, rating: newValue }));
+    dispatch(setFilter({ key: "rating", value: newValue }));
   };
 
   // 6️⃣ Price Range
   const handlePriceChange = (range) => {
-    const newFilters = { ...filters, priceRange: range };
-    setFilters(newFilters);
-    
-    // dispatch(filteritems(filters));
+    setFilters((prev) => ({ ...prev, priceRange: range }));
+    dispatch(setFilter({ key: "priceRange", value: range }));
   };
 
   // ⭐ Utility for rendering stars
@@ -94,8 +89,8 @@ const FilterSidebar = ({ filterCategory = "Electronics" }) => {
         <Star
           key={star}
           className={`w-3.5 h-3.5 ${star <= rating
-              ? "fill-orange-400 text-orange-400"
-              : "fill-gray-200 text-gray-200"
+            ? "fill-orange-400 text-orange-400"
+            : "fill-gray-200 text-gray-200"
             }`}
         />
       ))}
@@ -121,7 +116,7 @@ const FilterSidebar = ({ filterCategory = "Electronics" }) => {
   );
 
   return (
-    <div className="w-full border-r border-gray-200 overflow-y-auto">
+    <div className="w-full overflow-hidden border-r border-gray-200 overflow-y-auto">
       <div className="p-4 space-y-3">
 
         {/* Subcategories */}
@@ -132,7 +127,7 @@ const FilterSidebar = ({ filterCategory = "Electronics" }) => {
                 control={
                   <Checkbox
                     checked={filters.subcategories.includes(sub)}
-                    onChange={() => handleCheckboxChange("subcategory", sub)}
+                    onChange={() => handleCheckboxChange("subcategories", sub)}
                   />
                 }
                 label={sub}
@@ -141,18 +136,19 @@ const FilterSidebar = ({ filterCategory = "Electronics" }) => {
           ))}
         </FilterSection>
 
+
         {/* Brands */}
-        <FilterSection title="Brands" sectionKey="brand">
-          {brand.map((brand) => (
-            <FormGroup key={brand}>
+        <FilterSection title="Brands" sectionKey="brands">
+          {brand.map((brandItem,i) => (
+            <FormGroup key={i}>
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={filters.brand.includes(brand)}
-                    onChange={() => handleCheckboxChange("brand", brand)}
+                    checked={filters.brands.includes(brandItem)}
+                    onChange={() => handleCheckboxChange("brands", brandItem)}
                   />
                 }
-                label={brand}
+                label={brandItem}
               />
             </FormGroup>
           ))}
@@ -166,7 +162,7 @@ const FilterSidebar = ({ filterCategory = "Electronics" }) => {
                 control={
                   <Checkbox
                     checked={filters.features.includes(feature)}
-                    onChange={() => handleCheckboxChange("feature", feature)}
+                    onChange={() => handleCheckboxChange("features", feature)}
                   />
                 }
                 label={feature}
@@ -211,8 +207,8 @@ const FilterSidebar = ({ filterCategory = "Electronics" }) => {
               key={rating}
               onClick={() => handleRatingChange(rating)}
               className={`flex items-center w-full p-2 rounded hover:bg-blue-100 ${filters.rating === rating
-                  ? "bg-blue-50 border border-blue-200"
-                  : ""
+                ? "bg-blue-50 border border-blue-200"
+                : ""
                 }`}
             >
               {renderStars(rating)}

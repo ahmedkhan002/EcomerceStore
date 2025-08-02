@@ -1,12 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Slider from "@mui/material/Slider";
 
-export default function RangeSlider() {
-  const [range, setRange] = useState([200, 800]);
-  const [inputMin, setInputMin] = useState(range[0]);
-  const [inputMax, setInputMax] = useState(range[1]);
-
-  const sliderRef = useRef(null);
+export default function RangeSlider({ value = [0, 1000], onChange }) {
+  const [range, setRange] = useState(value);
+  const [inputMin, setInputMin] = useState(value[0]);
+  const [inputMax, setInputMax] = useState(value[1]);
 
   const handleSliderChange = (event, newValue) => {
     setRange(newValue);
@@ -17,10 +15,12 @@ export default function RangeSlider() {
   const handleApply = () => {
     const min = Math.max(0, Math.min(Number(inputMin), 1000));
     const max = Math.max(min, Math.min(Number(inputMax), 1000));
-    setRange([min, max]);
+    const newRange = [min, max];
+    setRange(newRange);
     setInputMin(min);
     setInputMax(max);
-    console.log(min,max)
+
+    if (onChange) onChange(newRange); 
   };
 
   return (
@@ -28,12 +28,12 @@ export default function RangeSlider() {
       <h2 className="text-lg font-semibold text-gray-800">Select Price Range</h2>
 
       <Slider
-        ref={sliderRef}
         value={range}
-        onChange={handleSliderChange}
+        onChange={handleSliderChange} 
         valueLabelDisplay="auto"
         min={0}
         max={1000}
+        className=""
       />
 
       <div className="flex justify-between gap-4">
@@ -54,7 +54,7 @@ export default function RangeSlider() {
             type="number"
             className="border border-gray-200 bg-white rounded px-2 py-1"
             value={inputMax}
-            onChange={(e) => setInputMax(e.target.value)}
+            onChange={(e) => setInputMax(Number(e.target.value))}
             min={0}
             max={1000}
           />

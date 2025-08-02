@@ -13,12 +13,12 @@ import NewsLetter from '../components/home/NewsLetter';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useRef } from 'react';
-import { setFilter, toggleArrayFilter, resetFilters } from '../ReduxStore/counter/filterbar';
+import { setFilter, removefilter } from '../ReduxStore/counter/filterbar';
 import { productData } from '../api/productData';
 
 
 export default function collection() {
-  const filtervalue = useSelector((state) => state.filterbar.productvalue);
+  const filtervalue = useSelector((state) => state.filterbar.activefilter);
   const filtertype = useSelector((state) => state.filterbar.producttype);
   const dispatch = useDispatch()
   const [activeDropdown, setActiveDropdown] = useState(false);
@@ -194,14 +194,14 @@ const handleFilterCat = (item) => {
               className={`${filtervalue == '' ? 'hidden' : 'flex flex-row gap-2  py-4 overflow-x-scroll cursor-grab active:cursor-grabbing select-none'
                 }`}
             >
-              {/* {filtervalue && filtervalue.map((item, index) => (
+              {filtervalue && filtervalue.map((item, index) => (
                 <p
                   key={index}
                   className="py-1 px-4 bg-white border-2 border-blue-400 cursor-pointer rounded-lg text-nowrap text-gray-600"
                 >
-                  {item} <X onClick={() => dispatch(removefilteritems(item))} className="inline size-4" />
+                  {item} <X onClick={() => dispatch(removefilter(item))} className="inline size-4" />
                 </p>
-              ))} */}
+              ))}
             </div>
 
             <div sx={{ height: '100%', boxSizing: 'border-box', textAlign: 'start' }} className='mt-5 flex flex-col'>

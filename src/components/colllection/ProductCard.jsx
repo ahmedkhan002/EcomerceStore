@@ -3,13 +3,11 @@ import { Heart, Star } from 'lucide-react';
 import { productData as product } from '../../api/productData';
 import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
-import { movetosaved } from '../../ReduxStore/cart/cartReducer';
+import { movetosaved, viewitem } from '../../ReduxStore/cart/cartReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router';
 
 const ProductCard = ({ productKey, productValue, layout }) => {
-    const filtervalue = useSelector((state) => state.filterbar.productvalue);
-    const filtertype = useSelector((state) => state.filterbar.producttype);
     const dispatch = useDispatch()
     const [wishlist, setWishlist] = useState({})
     const [showDetails, setShowDetails] = useState(false);
@@ -18,6 +16,7 @@ const ProductCard = ({ productKey, productValue, layout }) => {
 
 
     const filters = useSelector((state) => state.filterbar.filters);
+    const saveitem = useSelector(state => state.cartReducer.saveditems)
 
     const filteredProducts = product.filter((item) => {
         const { category, subcategories, brands, features, condition, rating, priceRange } = filters;
@@ -42,14 +41,11 @@ const ProductCard = ({ productKey, productValue, layout }) => {
         page * itemsPerPage
     );
 
+    const isSaved = (id) => saveitem?.some(item => item.id === id);
+
     const toggleWishlist = (id) => {
-        dispatch(movetosaved({ id: id }))
-        setWishlist((prev) => ({
-            ...prev,
-            [id]: !prev[id],
-        }));
+        dispatch(movetosaved({ id }));
     };
-    const toggleDetails = () => setShowDetails(!showDetails);
 
     const renderStars = (rating) => (
         <div className="flex items-center">
@@ -95,12 +91,7 @@ const ProductCard = ({ productKey, productValue, layout }) => {
                                         onClick={() => toggleWishlist(item.id)}
                                         className="flex-shrink-0 p-1 cursor-pointer hover:bg-gray-100 rounded-full transition-colors"
                                     >
-                                        <Heart
-                                            className={`w-5 h-5 ${wishlist[item.id]
-                                                ? 'fill-red-500 text-red-500'
-                                                : 'text-gray-400 hover:text-red-500'
-                                                }`}
-                                        />
+                                        <Heart className={isSaved(item?.id) ? "text-red-500 size-5 fill-red-500" : "text-gray-400 size-5"} />
                                     </button>
 
                                 </div>
@@ -135,10 +126,10 @@ const ProductCard = ({ productKey, productValue, layout }) => {
                                 </div>
 
                                 <NavLink to='/product'
-                                    onClick={toggleDetails}
+                                    onClick={() => dispatch(viewitem({ id: item.id }))}
                                     className="text-sm text-blue-500 hover:text-blue-700 font-medium transition-colors"
                                 >
-                                    {showDetails ? 'Hide details' : 'View details'}
+                                    View details
                                 </NavLink>
                             </div>
                         </div>

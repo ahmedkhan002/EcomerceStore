@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 
 const FilterSidebar = ({ filterCategory = "Electronics" }) => {
-  const filtertype = useSelector((state) => state.filterbar.producttype);
   const dispatch = useDispatch();
 
   // 1️⃣ Prepare unique filter options from products
@@ -33,7 +32,7 @@ const FilterSidebar = ({ filterCategory = "Electronics" }) => {
     features: [],
     condition: "any",
     rating: null,
-    priceRange: [0, 1000],
+    priceRange: [0, 2000],
   });
 
   // 3️⃣ Expand/collapse UI sections

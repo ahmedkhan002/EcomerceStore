@@ -4,29 +4,12 @@ import tab from '../assets/collection/tab.png'
 import laptop from '../assets/collection/laptop.png'
 import watch from '../assets/collection/watch.png'
 import headphone from '../assets/collection/headphone.png'
+import levijeans from '../assets/collection/Levijeans.png'
+import nikeair from '../assets/collection/nikeair.png'
+import adidashoodie from '../assets/collection/adidashoodie.png'
 export const productData = [
   // Electronics > Smartphones (5 products)
-    {
-    id: 1202,
-    name: "iPhone 15",
-    size: "5.8 inch",
-    seller: "Apple Official Store",
-    price: 998,
-    discountedPrice: 1128,
-    images: [
-      iphonered
-    ],
-    category: "Electronics",
-    subcategory: "Smartphones",
-    brand: "Apple",
-    feature: "Metallic",
-    condition: "New",
-    quantity: 1,
-    rating: 5,
-    reviews: 95,
-    sold: 154,
-    shipping: true
-  },
+    
     {
     id: 1203,
     name: "Redmi 9a",
@@ -46,6 +29,27 @@ export const productData = [
     rating: 5,
     reviews: 60,
     sold: 180,
+    shipping: true
+  },
+  {
+    id: 1202,
+    name: "iPhone 15",
+    size: "5.8 inch",
+    seller: "Apple Official Store",
+    price: 1299,
+    discountedPrice: 1199,
+    images: [
+      iphonered
+    ],
+    category: "Electronics",
+    subcategory: "Smartphones",
+    brand: "Apple",
+    feature: "Metallic",
+    condition: "New",
+    quantity: 1,
+    rating: 5,
+    reviews: 95,
+    sold: 154,
     shipping: true
   },
     {
@@ -566,7 +570,7 @@ export const productData = [
     price: 59,
     discountedPrice: 49,
     images: [
-      "https://m.media-amazon.com/images/I/71A6nJ8cv1L._AC_UX679_.jpg"
+      levijeans
     ],
     category: "Fashion",
     subcategory: "Men",
@@ -587,7 +591,7 @@ export const productData = [
     price: 150,
     discountedPrice: 135,
     images: [
-      "https://m.media-amazon.com/images/I/71Y2V7YjE8L._AC_UX679_.jpg"
+      nikeair
     ],
     category: "Fashion",
     subcategory: "Men",
@@ -608,7 +612,7 @@ export const productData = [
     price: 55,
     discountedPrice: 45,
     images: [
-      "https://m.media-amazon.com/images/I/61xRA3XZy6L._AC_UX679_.jpg"
+      adidashoodie
     ],
     category: "Fashion",
     subcategory: "Men",

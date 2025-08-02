@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Slider from "@mui/material/Slider";
 
-export default function RangeSlider({ value = [0, 1000], onChange }) {
+export default function RangeSlider({ value = [0, 2000], onChange }) {
   const [range, setRange] = useState(value);
   const [inputMin, setInputMin] = useState(value[0]);
   const [inputMax, setInputMax] = useState(value[1]);
@@ -14,7 +14,7 @@ export default function RangeSlider({ value = [0, 1000], onChange }) {
 
   const handleApply = () => {
     const min = Math.max(0, Math.min(Number(inputMin), 1000));
-    const max = Math.max(min, Math.min(Number(inputMax), 1000));
+    const max = Math.max(min, Math.min(Number(inputMax), 2000));
     const newRange = [min, max];
     setRange(newRange);
     setInputMin(min);
@@ -32,8 +32,7 @@ export default function RangeSlider({ value = [0, 1000], onChange }) {
         onChange={handleSliderChange} 
         valueLabelDisplay="auto"
         min={0}
-        max={1000}
-        className=""
+        max={2000}
       />
 
       <div className="flex justify-between gap-4">
@@ -45,7 +44,7 @@ export default function RangeSlider({ value = [0, 1000], onChange }) {
             value={inputMin}
             onChange={(e) => setInputMin(Number(e.target.value))}
             min={0}
-            max={1000}
+            max={2000}
           />
         </div>
         <div className="flex flex-col w-1/2">
@@ -56,7 +55,7 @@ export default function RangeSlider({ value = [0, 1000], onChange }) {
             value={inputMax}
             onChange={(e) => setInputMax(Number(e.target.value))}
             min={0}
-            max={1000}
+            max={2000}
           />
         </div>
       </div>

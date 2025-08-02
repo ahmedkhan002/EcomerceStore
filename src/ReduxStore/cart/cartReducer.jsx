@@ -4,6 +4,7 @@ import { productData as product } from '../../api/productData';
 const initialState = {
     cartitems: [],
     saveditems: [],
+    viewitem: null
 }
 export const cartReducer = createSlice({
     name: 'cart',
@@ -11,9 +12,13 @@ export const cartReducer = createSlice({
     reducers: {
         movetosaved: (state, action) => {
             const itemIndex = product.findIndex(item => item.id === action.payload.id);
+
             if (itemIndex !== -1) {
                 const item = product[itemIndex];
-                state.saveditems.push(item);
+                const exists = state.saveditems.some(saved => saved.id === item.id);
+                if (!exists) {
+                    state.saveditems.push(item);
+                }
                 state.cartitems = state.cartitems.filter(item => item.id !== action.payload.id);
             }
         },
@@ -23,6 +28,12 @@ export const cartReducer = createSlice({
                 const item = product[itemIndex];
                 state.cartitems.push(item);
                 state.saveditems = state.saveditems.filter(item => item.id !== action.payload.id);
+            }
+        },
+        viewitem: (state, action) => {
+            const itemIndex = product.findIndex(item => item.id === action.payload.id)
+            if (itemIndex !== -1) {
+                state.viewitem = product[itemIndex];
             }
         },
         removefromcart: (state, action) => {
@@ -48,6 +59,6 @@ export const cartReducer = createSlice({
     },
 })
 
-export const { movetocart, increaseQuantity, decreaseQuantity, removefromcart, movetosaved, removeall } = cartReducer.actions
+export const { movetocart, increaseQuantity, decreaseQuantity, removefromcart, movetosaved, removeall, viewitem } = cartReducer.actions
 
 export default cartReducer.reducer

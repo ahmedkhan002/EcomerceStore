@@ -11,9 +11,12 @@ import GB from '../../assets/header/flags/GB.png'
 import IT from '../../assets/header/flags/IT.png'
 import RU from '../../assets/header/flags/RU.png'
 import US from '../../assets/header/flags/US.png'
+import { useDispatch } from 'react-redux';
+import { setFilter } from '../../ReduxStore/counter/filterbar';
 
 
 const Nav2 = () => {
+  const dispatch = useDispatch()
 
   const flags = [
     {
@@ -71,6 +74,10 @@ const Nav2 = () => {
   };
 
   const handleItemClick = (item) => {
+    if (item === 'All Categories') {
+      dispatch(setFilter({ key: 'category', value: null })); 
+    }
+    dispatch(setFilter({ key: 'category', value: item })); 
     setActiveDropdown(!activeDropdown)
   };
 
@@ -84,28 +91,35 @@ const Nav2 = () => {
             {/* All Categories */}
             <div className="relative">
               <button
-                onClick={() => toggleDropdown('categories')}
-                className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 transition-colors"
+                onMouseOver={() => toggleDropdown('categories')}
+                className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 transition-colors cursor-pointer"
               >
                 <Menu className="h-4 w-4" />
-                <NavLink to='/collection' className="text-sm font-medium">All category</NavLink>
+                <p
+                  className="text-sm font-medium cursor-pointer"
+                >
+                  All category
+                </p>
               </button>
+
               {activeDropdown === 'categories' && (
                 <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
                   <div className="py-1">
                     {['Electronics', 'Fashion', 'Home & Garden', 'Sports', 'Books', 'Health & Beauty'].map((category) => (
-                      <button
+                      <NavLink
+                        to='/collection'
                         key={category}
                         onClick={() => handleItemClick(category)}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 cursor-pointer"
                       >
                         {category}
-                      </button>
+                      </NavLink>
                     ))}
                   </div>
                 </div>
               )}
             </div>
+
 
             {/* Navigation Links */}
             <div className="hidden lg:flex items-center space-x-8">
@@ -164,7 +178,7 @@ const Nav2 = () => {
 
           {/* Right Section - Language, Currency, Location */}
           <div className="flex items-center space-x-6">
-            {/* Language/Currency Dropdown */}
+
             <div className="relative">
               <button
                 onClick={() => toggleDropdown('language')}
@@ -190,7 +204,7 @@ const Nav2 = () => {
               )}
             </div>
 
-            {/* Ship to Location */}
+            {/* Location */}
             <div className="relative">
               <button
                 onClick={() => setlocationDropdown(!locationDropdown)}
@@ -200,13 +214,13 @@ const Nav2 = () => {
                 <img src={currCountry.icon} alt='404' className='h-4' />
                 <ChevronDown className="h-4 w-4" />
               </button>
-              {locationDropdown  && (
+              {locationDropdown && (
                 <div className="absolute top-full right-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
                   <div className="py-1">
                     {flags.map((country) => (
                       <button
                         key={country.name}
-                        onClick={() => {setcurCountry(country); setlocationDropdown(!locationDropdown)}}
+                        onClick={() => { setcurCountry(country); setlocationDropdown(!locationDropdown) }}
                         className="flex cursor-pointer items-center space-x-2 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                       >
                         <MapPin className="h-4 w-4" />
@@ -230,46 +244,8 @@ const Nav2 = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {/* {isMenuOpen && (
-          <div className="lg:hidden border-t border-gray-200 pt-4 pb-4">
-            <div className="space-y-3">
-              <button
-                onClick={() => handleItemClick('Hot offers')}
-                className="block w-full text-left text-sm font-medium text-gray-700 hover:text-gray-900 py-2"
-              >
-                Hot offers
-              </button>
-              <button
-                onClick={() => handleItemClick('Gift boxes')}
-                className="block w-full text-left text-sm font-medium text-gray-700 hover:text-gray-900 py-2"
-              >
-                Gift boxes
-              </button>
-              <button
-                onClick={() => handleItemClick('Projects')}
-                className="block w-full text-left text-sm font-medium text-gray-700 hover:text-gray-900 py-2"
-              >
-                Projects
-              </button>
-              <button
-                onClick={() => handleItemClick('Menu item')}
-                className="block w-full text-left text-sm font-medium text-gray-700 hover:text-gray-900 py-2"
-              >
-                Menu item
-              </button>
-              <button
-                onClick={() => handleItemClick('Help')}
-                className="block w-full text-left text-sm font-medium text-gray-700 hover:text-gray-900 py-2"
-              >
-                Help
-              </button>
-            </div>
-          </div>
-        )} */}
       </div>
 
-      {/* Backdrop for dropdowns */}
       {activeDropdown && (
         <div
           className="fixed inset-0 z-40"

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Check } from 'lucide-react';
+import { productData } from '../../api/productData';
 
 const ProductDetails = () => {
     const [activeTab, setActiveTab] = useState('description');
-
+    const products = productData.filter(item => item.category === 'Electronics').splice(0,5)
     const tabs = [
         { id: 'description', label: 'Description' },
         { id: 'reviews', label: 'Reviews' },
@@ -24,44 +25,6 @@ const ProductDetails = () => {
         'Lorem ipsum dolor sit amet, consectetur',
         'Duis aute irure dolor in reprehenderit',
         'Some great feature name here'
-    ];
-
-    const suggestedProducts = [
-        {
-            id: 1,
-            name: 'Men Blazers Sets Business Formal',
-            price: '$7.00',
-            originalPrice: '$95.00',
-            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjNGNEY2Ii8+CjxyZWN0IHg9IjE1IiB5PSIxMCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjQwIiByeD0iNSIgZmlsbD0iIzM3NDE1MSIvPgo8cmVjdCB4PSIyMCIgeT0iMTUiIHdpZHRoPSIyMCIgaGVpZ2h0PSIzMCIgZmlsbD0iIzRCNTU2MyIvPgo8L3N2Zz4K'
-        },
-        {
-            id: 2,
-            name: 'Men Shirt Sleeve Polo Contrast',
-            price: '$5.00',
-            originalPrice: '$25.00',
-            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjNGNEY2Ii8+CjxyZWN0IHg9IjE1IiB5PSIxNSIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIiByeD0iNSIgZmlsbD0iIzM3NDE1MSIvPgo8L3N2Zz4K'
-        },
-        {
-            id: 3,
-            name: 'Apple Watch Series Space Gray',
-            price: '$7.00',
-            originalPrice: '$39.00',
-            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjNGNEY2Ii8+CjxyZWN0IHg9IjIwIiB5PSIxNSIgd2lkdGg9IjIwIiBoZWlnaHQ9IjMwIiByeD0iNSIgZmlsbD0iI0VGNDQ0NCIvPgo8L3N2Zz4K'
-        },
-        {
-            id: 4,
-            name: 'Basketball Crew Socks Long Stuff',
-            price: '$7.00',
-            originalPrice: '$25.00',
-            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjNGNEY2Ii8+CjxyZWN0IHg9IjE1IiB5PSIyMCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjIwIiByeD0iNSIgZmlsbD0iIzM5OTNERiIvPgo8L3N2Zz4K'
-        },
-        {
-            id: 5,
-            name: 'New Summer Men\'s Casual T-Shirts',
-            price: '$7.00',
-            originalPrice: '$95.00',
-            image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjNGNEY2Ii8+CjxyZWN0IHg9IjE1IiB5PSIxNSIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIiByeD0iNSIgZmlsbD0iIzYzNjZGMSIvPgo8L3N2Zz4K'
-        }
     ];
 
     const renderTabContent = () => {
@@ -173,26 +136,29 @@ const ProductDetails = () => {
                     <div className="xl:col-span-1 h-max bg-white border border-gray-300 rounded-xl">
                         <div className=" p-4">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">You may like</h3>
-                            <div className="space-y-4">
-                                {suggestedProducts.map((product) => (
+                            <div className="space-y-4 max-lg:flex max-lg:flex-row flex-wrap items-center justify-around max-lg:gap-5">
+                                {products.map((product) => (
                                     <div key={product.id} className="flex items-center space-x-3 p-2 hover:bg-white rounded-lg transition-colors cursor-pointer">
-                                        <div className="w-12 h-12 bg-gray-200 rounded-lg flex-shrink-0 overflow-hidden">
+                                        <div className="size-18 border border-gray-200 flex-shrink-0 overflow-hidden">
                                             <img
-                                                src={product.image}
+                                                src={product.images[0]}
                                                 alt={product.name}
-                                                className="w-full h-full object-cover"
+                                                className="w-full h-full object-contain"
                                             />
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <h4 className="text-sm font-medium text-gray-900 line-clamp-2 mb-1">
+                                            <h4 className="text-md font-medium text-gray-900 line-clamp-2 mb-1">
                                                 {product.name}
+                                            </h4>
+                                            <h4 className="text-sm font-medium text-gray-900 line-clamp-2 mb-1">
+                                                {product.subcategory}
                                             </h4>
                                             <div className="flex items-center space-x-2">
                                                 <span className="text-sm font-semibold text-gray-900">
                                                     {product.price}
                                                 </span>
                                                 <span className="text-xs text-gray-500 line-through">
-                                                    {product.originalPrice}
+                                                    {product.discountedPrice}
                                                 </span>
                                             </div>
                                         </div>

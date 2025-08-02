@@ -18,6 +18,7 @@ import { movetosaved } from '../ReduxStore/cart/cartReducer';
 const ProductCard = () => {
     const product = useSelector(state => state.cartReducer.viewitem)
     const saveitem = useSelector(state => state.cartReducer.saveditems)
+    const productCategory = product?.subcategory
     const dispatch = useDispatch()
     const row = [
         {
@@ -56,9 +57,8 @@ const ProductCard = () => {
     return (
         <>
             <section className=" w-full bg-white border border-gray-300 p-4 rounded-xl flex flex-col lg:flex-row gap-6">
-                {/* Left Side - Images */}
+                {/* main images */}
                 <div className="flex flex-col gap-4">
-                    {/* Main Image */}
                     <div className=" min-h-[240px] min-w-[270px] max-w-[350px] max-lg:mx-auto border border-gray-300 overflow-hidden">
                         <img
                             src={product?.images[0]}
@@ -67,7 +67,7 @@ const ProductCard = () => {
                         />
                     </div>
 
-                    {/* Thumbnails */}
+                    {/* small images */}
                     <div className="flex flex-wrap gap-2 items-center justify-start">
                         {product?.images?.map((src, i) => (
                             <div
@@ -80,7 +80,7 @@ const ProductCard = () => {
                     </div>
                 </div>
 
-                {/* Right Side - Details */}
+                {/* Details */}
                 <div className="flex-1 flex flex-col gap-4">
                     <h1 className='text-green-500'><Check className="w-4 h-4 inline text-green-500 flex-shrink-0" /> In stock</h1>
                     <h2 className="text-lg font-semibold text-gray-900">
@@ -133,7 +133,7 @@ const ProductCard = () => {
 
                 </div>
                 {/* Supplier Card */}
-                <div className=" w-1/4 p-4 max-lg:hidden rounded-md space-y-4 mt-2 bg-gray-50">
+                <div className=" w-1/4 h-max p-4 max-lg:hidden rounded-md space-y-4 mt-2 bg-gray-50">
                     <div className='flex gap-2 pb-4 border-b border-gray-400'>
                         <span className='bg-[#bcd9fa] overflow-hidden size-10 '>
                             <img src={user} className='mt-1 mx-auto object-center' alt="user" />
@@ -158,7 +158,7 @@ const ProductCard = () => {
                 </div>
             </section>
             <ProductDetails />
-            <RelatedProductsSection />
+            <RelatedProductsSection productCategory={productCategory} />
         </>
     );
 };

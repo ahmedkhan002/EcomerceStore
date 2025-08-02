@@ -143,7 +143,7 @@ const ProductCard = ({ productKey, productValue, layout }) => {
                     value={itemsPerPage}
                     onChange={(e) => {
                         setitemsPerPage(Number(e.target.value));
-                        setPage(1); // reset to first page
+                        setPage(1); 
                     }}
                 >
                     {[10, 20, 30, 40, 50].map((item) => (

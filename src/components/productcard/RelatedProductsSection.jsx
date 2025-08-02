@@ -1,58 +1,9 @@
 import React, { useState } from 'react';
+import { productData } from '../../api/productData';
 
-const RelatedProductsSection = () => {
+const RelatedProductsSection = ({productCategory}) => {
   const [hoveredProduct, setHoveredProduct] = useState(null);
-
-  const relatedProducts = [
-    {
-      id: 1,
-      name: 'Xiaomi Redmi 8 Original',
-      price: '$32.00',
-      originalPrice: '$41.00',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxyZWN0IHg9IjE1IiB5PSIxNSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iOCIgZmlsbD0iIzM3NDE1MSIvPgo8cmVjdCB4PSIyMCIgeT0iMjAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgZmlsbD0iIzRCNTU2MyIvPgo8L3N2Zz4K',
-      bgColor: 'bg-gray-100'
-    },
-    {
-      id: 2,
-      name: 'Xiaomi Redmi 8 Original',
-      price: '$32.00',
-      originalPrice: '$42.00',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxjaXJjbGUgY3g9IjQwIiBjeT0iNDAiIHI9IjI1IiBmaWxsPSIjMzc0MTUxIi8+CjxjaXJjbGUgY3g9IjQwIiBjeT0iNDAiIHI9IjE1IiBmaWxsPSIjNEI1NTYzIi8+CjxjaXJjbGUgY3g9IjQwIiBjeT0iNDAiIHI9IjgiIGZpbGw9IiM2QjczODAiLz4KPC9zdmc+',
-      bgColor: 'bg-gray-100'
-    },
-    {
-      id: 3,
-      name: 'Xiaomi Redmi 8 Original',
-      price: '$32.00',
-      originalPrice: '$49.00',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yNSAyNUM0NS40NzA2IDI1IDUwIDI5LjUyOTQgNTAgNTBDNTAgNTUuNTIyOCA0NS40NzA2IDUwIDQwIDUwSDMwQzI1IDUwIDI1IDQ1IDI1IDQwVjI1WiIgZmlsbD0iIzM3NDE1MSIvPgo8cGF0aCBkPSJNMzAgMzBIMzkuNUMzOS41IDMwIDQ1IDMwIDQ1IDM1LjVDNDUgNDEgMzkuNSA0MSAzNiA0MUgzMFYzMFoiIGZpbGw9IiM0QjU1NjMiLz4KPC9zdmc+',
-      bgColor: 'bg-gray-100'
-    },
-    {
-      id: 4,
-      name: 'Xiaomi Redmi 8 Original',
-      price: '$32.00',
-      originalPrice: '$41.00',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxyZWN0IHg9IjIwIiB5PSIyNSIgd2lkdGg9IjQwIiBoZWlnaHQ9IjMwIiByeD0iNSIgZmlsbD0iIzM3NDE1MSIvPgo8cmVjdCB4PSIyNSIgeT0iMzAiIHdpZHRoPSIzMCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzRCNTU2MyIvPgo8L3N2Zz4K',
-      bgColor: 'bg-gray-100'
-    },
-    {
-      id: 5,
-      name: 'Xiaomi Redmi 8 Original',
-      price: '$32.00',
-      originalPrice: '$49.00',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxyZWN0IHg9IjE1IiB5PSIyMCIgd2lkdGg9IjUwIiBoZWlnaHQ9IjQwIiByeD0iNSIgZmlsbD0iIzM3NDE1MSIvPgo8cmVjdCB4PSIyNSIgeT0iMjUiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgZmlsbD0iIzRCNTU2MyIvPgo8L3N2Zz4K',
-      bgColor: 'bg-gray-100'
-    },
-    {
-      id: 6,
-      name: 'Xiaomi Redmi 8 Original',
-      price: '$32.00',
-      originalPrice: '$49.00',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxyZWN0IHg9IjE1IiB5PSIyMCIgd2lkdGg9IjUwIiBoZWlnaHQ9IjQwIiByeD0iNSIgZmlsbD0iI0VGNDQ0NCIvPgo8cmVjdCB4PSIyMCIgeT0iMjUiIHdpZHRoPSI0MCIgaGVpZ2h0PSIzMCIgZmlsbD0iI0Y5NzMxNiIvPgo8L3N2Zz4K',
-      bgColor: 'bg-gray-100'
-    }
-  ];
+  const product = productData.filter(item => item.subcategory === productCategory).slice(0,6)
 
   return (
     <>
@@ -68,7 +19,7 @@ const RelatedProductsSection = () => {
           {/* Products Grid */}
           <div className="p-2">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {relatedProducts.map((product) => (
+              {product?.map((product) => (
                 <div
                   key={product.id}
                   className="group cursor-pointer"
@@ -79,7 +30,7 @@ const RelatedProductsSection = () => {
                   <div className={`${product.bgColor} rounded-lg mb-2 aspect-square flex items-center justify-center p-2 transition-transform group-hover:scale-105`}>
                     <div className="w-full h-full flex items-center justify-center">
                       <img 
-                        src={product.image}
+                        src={product.images[0]}
                         alt={product.name}
                         className="w-full h-full object-contain"
                       />

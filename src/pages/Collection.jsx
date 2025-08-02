@@ -32,35 +32,31 @@ export default function collection() {
     if (filtervalue && filtervalue.length > 0) {
       setproductValue(filtervalue[0])
       seproductKey('subcategory')
-    } else if(filtervalue?.length <= 0){
+    } else if (filtervalue?.length <= 0) {
       seproductKey("quantity")
       setproductValue(1)
     }
-   
-  }, [filtervalue])
 
-    // useEffect(() => {
-    //    console.log(filtertype,filtervalue)
-    // })
+  }, [filtervalue])
 
   const toggleDropdown = (dropdown) => {
     setActiveDropdown(activeDropdown === dropdown ? false : dropdown);
   };
 
-const handleFilterCat = (item) => {
-  if (item === 'All Categories') {
-    setfilterCategory('Electronics');
-    seproductKey('quantity');
-    setproductValue(1);
-    dispatch(setFilter({ key: 'category', value: null })); // Reset category
-  } else {
-    seproductKey('category');
-    setproductValue(item);
-    setfilterCategory(item);
-    dispatch(setFilter({ key: 'category', value: item })); // Set selected category
-  }
-  setActiveDropdown(true);
-};
+  const handleFilterCat = (item) => {
+    if (item === 'All Categories') {
+      setfilterCategory('Electronics');
+      seproductKey('quantity');
+      setproductValue(1);
+      dispatch(setFilter({ key: 'category', value: null })); 
+    } else {
+      seproductKey('category');
+      setproductValue(item);
+      setfilterCategory(item);
+      dispatch(setFilter({ key: 'category', value: item })); 
+    }
+    setActiveDropdown(true);
+  };
 
 
   const handleSort = (item) => {
@@ -111,7 +107,7 @@ const handleFilterCat = (item) => {
           <Grid className='max-lg:w-full w-[74%]'>
             <div className='flex flex-row items-center max-md:px-10 max-sm:px-5 max-sm:-mx-[4vw] sm:-mx-[5vw] md:mx-[0] lg:mx-[0] justify-between bg-white p-2 border max-md:border-y border-gray-200 rounded-md'>
               <div className='text-nowrap max-md:hidden'>
-                <p> {productlength} items in <span className='text-black font-semibold'>{ productValue !== 1 ? filterCategory :'All Categories'}</span></p>
+                <p> {productlength} items in <span className='text-black font-semibold'>{productValue !== 1 ? filterCategory : 'All Categories'}</span></p>
               </div>
 
               <div className='flex items-center md:justify-end gap-4 w-[60%] max-md:w-full'>
@@ -151,7 +147,7 @@ const handleFilterCat = (item) => {
                     onClick={() => toggleDropdown('Featured')}
                     className="flex items-center cursor-pointer justify-between gap-2 max-md:space-x-0 space-x-12  py-1 w-full  px-2 hover:text-gray-900 transition-colors"
                   >
-                    <span className=" text-nowrap max-sm:text-sm">{productKey === 'category' ? productValue : 'Featured' }</span>
+                    <span className=" text-nowrap max-sm:text-sm">{productKey === 'category' ? productValue : 'Featured'}</span>
                     <span className=' flex'>
                       <ChevronDown className="size-4 max-md:hidden" />
                       <Filter className="size-4  text-gray-500 md:hidden" />
@@ -161,7 +157,7 @@ const handleFilterCat = (item) => {
                   {activeDropdown === 'Featured' && (
                     <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
                       <div className="py-1">
-                        {['All Categories','Electronics', 'Fashion', 'Sports', 'Furniture', 'Books', 'Health & Beauty'].map((item) => (
+                        {['All Categories', 'Electronics', 'Fashion', 'Sports', 'Furniture', 'Books', 'Health & Beauty'].map((item) => (
                           <button
                             key={item}
                             onClick={() => handleFilterCat(item)}
@@ -177,8 +173,8 @@ const handleFilterCat = (item) => {
 
 
                 <div className='flex border border-gray-300 cursor-pointer rounded-sm min-w-max'>
-                  <img src={layoutgrid} onClick={() => setlayout(false) } alt="" className={`p-1 border-r focus: border-gray-300 ${layout === false ? 'bg-gray-200' : ''} `} />
-                  <img src={alignjustify} onClick={() => setlayout(true) } alt="" className={`p-1 ${layout === true ? 'bg-gray-200' : ''}`} />
+                  <img src={layoutgrid} onClick={() => setlayout(false)} alt="" className={`p-1 border-r focus: border-gray-300 ${layout === false ? 'bg-gray-200' : ''} `} />
+                  <img src={alignjustify} onClick={() => setlayout(true)} alt="" className={`p-1 ${layout === true ? 'bg-gray-200' : ''}`} />
                 </div>
 
               </div>

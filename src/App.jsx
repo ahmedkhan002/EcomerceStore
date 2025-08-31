@@ -9,6 +9,14 @@ import Footer from './components/footer/Footer'
 import CustomSeparator from './CustomSeparator'
 import ProductCard from './pages/ProductCard'
 import ScrollToTop from './hooks/ScrollToTop'
+import { Toaster } from 'react-hot-toast';
+import HelpPage from './pages/HelpPage'
+import ProjectsPage from './pages/ProjectsPage'
+import HotOffersPage from './pages/HotOffersPage'
+import GiftBoxesPage from './pages/GiftBoxesPage'
+import MenuPage from './pages/MenuPage'
+import ChatPage from './pages/ChatPage'
+import OrdersPage from './pages/OrdersPage'
 
 const App = () => {
   return (
@@ -23,9 +31,17 @@ const App = () => {
       <Route path="/product" element={<ProductCard />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/auth" element={<Auth />} />
+      <Route path='/help' element={<HelpPage />} />
+      <Route path='/projects' element={<ProjectsPage />} />
+      <Route path='/hotoffers' element={<HotOffersPage />} />
+      <Route path='/giftbox' element={<GiftBoxesPage />} />
+      <Route path='/menupage' element={<MenuPage />} />
+      <Route path='/chat' element={<ChatPage />} />
+      <Route path='/orders' element={<OrdersPage />} />
     </Routes>
     </div>
     <Footer />
+    <Toaster />
     </>
    
   )

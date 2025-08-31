@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { ShoppingCart } from 'lucide-react';
 import { movetocart } from '../../ReduxStore/cart/cartReducer'
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 const SavedProducts = () => {
   const save = useSelector((state) => state.cartReducer.saveditems)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [hoveredProduct, setHoveredProduct] = useState(null);
 
 
@@ -74,7 +76,7 @@ const SavedProducts = () => {
             Have you ever finally just write dummy info
           </p>
         </div>
-        <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-75">
+        <button onClick={() => navigate('/collection')} className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-75">
           Shop now
         </button>
       </div>

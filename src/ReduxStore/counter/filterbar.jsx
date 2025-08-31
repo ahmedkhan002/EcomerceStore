@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   productLength: null,
   currentCateory: null,
-  activefilter:[],
+  activefilter: [],
   filters: {
     category: null,
     subcategories: [],
@@ -21,28 +21,37 @@ const filterbar = createSlice({
   reducers: {
     setFilter: (state, action) => {
       const { key, value } = action.payload;
-      state.filters[key] = value
-      state.currentCateory = value
-
+      state.filters[key] = value;
+      state.currentCateory = value;
     },
     toggleArrayFilter: (state, action) => {
       const { key, value } = action.payload;
+
       if (state.filters[key].includes(value)) {
         state.filters[key] = state.filters[key].filter((v) => v !== value);
+
+        state.activefilter = state.activefilter.filter((item) => item !== value);
       } else {
         state.filters[key].push(value);
-        state.activefilter.push(value)
+
+        if (!state.activefilter.includes(value)) {
+          state.activefilter.push(value);
+        }
       }
     },
     resetFilters: (state) => {
-      state.filters = initialState.filters;
+      state.filters = { ...initialState.filters }; 
+      state.activefilter = [];
     },
     removefilter: (state, action) => {
-      state.activefilter = state.activefilter.filter(item => item !== action.payload)
+      const value = action.payload;
+
+      state.activefilter = state.activefilter.filter((item) => item !== value);
+      
     },
     getProductLength: (state, action) => {
-      state.productLength = action.payload
-    }
+      state.productLength = action.payload;
+    },
   },
 });
 

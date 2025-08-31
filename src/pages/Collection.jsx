@@ -29,7 +29,6 @@ export default function Collection() {
     [productKey, productValue]
   );
 
-  // ✅ Properly handle category change (side effects out of useMemo)
   useEffect(() => {
     if (category !== null) {
       seproductKey('category');
@@ -38,7 +37,6 @@ export default function Collection() {
     }
   }, [category]);
 
-  // ✅ Handle filter changes
   useEffect(() => {
     if (filtervalue && filtervalue.length > 0) {
       setproductValue(filtervalue[0]);
@@ -49,13 +47,11 @@ export default function Collection() {
     }
   }, [filtervalue]);
 
-  // ✅ Pure derived value (no state updates here)
   const activeCategory = useMemo(
     () => (category !== null ? category : 'Featured'),
     [category]
   );
 
-  // Handlers optimized with useCallback
   const toggleDropdown = useCallback(
     (dropdown) => {
       setActiveDropdown((prev) => (prev === dropdown ? false : dropdown));
@@ -81,11 +77,6 @@ export default function Collection() {
     [dispatch]
   );
 
-  const handleSort = useCallback(() => {
-    setActiveDropdown((prev) => !prev);
-  }, []);
-
-  // Scroll drag effect
   const scrollRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -180,7 +171,7 @@ export default function Collection() {
                 </div>
 
                 {/* Layout Switch */}
-                <div className="flex border border-gray-300 cursor-pointer rounded-sm min-w-max">
+                <div className="flex border max-sm:hidden border-gray-300 cursor-pointer rounded-sm min-w-max">
                   <img
                     src={layoutgrid}
                     onClick={() => setlayout(false)}

@@ -74,10 +74,6 @@ const Nav2 = () => {
   };
 
   const handleItemClick = (item) => {
-    if (item === "All Categories") {
-      dispatch(setFilter({ key: "category", value: null }));
-    }
-    dispatch(setFilter({ key: "category", value: item }));
     setActiveDropdown(!activeDropdown);
   };
 
@@ -87,104 +83,49 @@ const Nav2 = () => {
         <div className="flex justify-between items-center h-12">
           <div className="flex items-center space-x-8">
             {/* All Categories */}
-            <div className="relative">
               <button
-                onMouseOver={() => toggleDropdown("categories")}
-                className="flex items-center text-sm font-semibold space-x-1 text-gray-700 hover:text-gray-900 transition-colors cursor-pointer"
+              onClick={() => navigate('/collection')}
+                className="flex items-center text-sm font-semibold space-x-1 text-gray-700 cursor-pointer hover:scale-125 duration-120"
               >
                 <Menu className="h-4 w-4 mr-2" />
                 
                   All category
               </button>
 
-              {activeDropdown === "categories" && (
-                <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                  <div className="py-1">
-                    {[
-                      "Electronics",
-                      "Fashion",
-                      "Furniture",
-                      "Sports",
-                      "Books",
-                      "Health & Beauty",
-                    ].map((category) => (
-                      <NavLink
-                        to="/collection"
-                        key={category}
-                        onClick={() => handleItemClick(category)}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 cursor-pointer"
-                      >
-                        {category}
-                      </NavLink>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
             {/* Navigation Links */}
             <div className="hidden lg:flex items-center space-x-8">
               <button
-                onClick={() => handleItemClick("Hot offers")}
-                className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+                onClick={() => navigate('/hotoffers')}
+                className="text-sm font-medium text-gray-700 cursor-pointer hover:scale-125 duration-120"
               >
                 Hot offers
               </button>
               <button
-                onClick={() => handleItemClick("Gift boxes")}
-                className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+                onClick={() => navigate('/giftbox')}
+                className="text-sm font-medium text-gray-700 cursor-pointer hover:scale-125 duration-120"
               >
                 Gift boxes
               </button>
               <button
-                onClick={() => handleItemClick("Projects")}
-                className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+                onClick={() => navigate('/projects')}
+                className="text-sm font-medium text-gray-700 cursor-pointer hover:scale-125 duration-120"
               >
                 Projects
               </button>
               <button
-                onClick={() => handleItemClick("Menu item")}
-                className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+                onClick={() => navigate('/menupage')}
+                className="text-sm font-medium text-gray-700 cursor-pointer hover:scale-125 duration-120"
               >
                 Menu item
               </button>
 
               {/* Help Dropdown */}
-              <div className="relative">
                 <button
-                  onClick={() => toggleDropdown("help")}
-                  className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 transition-colors"
+                  onClick={() => navigate('/help')}
+                  className="flex items-center cursor-pointer hover:scale-125 duration-120 space-x-1 text-gray-700"
                 >
                   <span className="text-sm font-medium">Help</span>
-                  <ChevronDown className="h-4 w-4" />
                 </button>
-                {activeDropdown === "help" && (
-                  <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                    <div className="py-1">
-                      {[
-                        "Customer Service",
-                        "Track Your Order",
-                        "Returns & Refunds",
-                        "Shipping Information",
-                        "FAQ",
-                        "Size Guide",
-                        "Contact Us",
-                        "Live Chat",
-                        "Report an Issue",
-                        "Account Help",
-                      ].map((helpItem) => (
-                        <button
-                          key={helpItem}
-                          onClick={() => handleItemClick(helpItem)}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                        >
-                          {helpItem}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
           </div>
 

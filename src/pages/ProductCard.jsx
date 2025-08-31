@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Star, ShieldCheck, MessageSquare, Check, Heart, HeartIcon } from 'lucide-react';
+import { Star, ShieldCheck, MessageSquare, Check, Heart, HeartIcon, ShoppingBasket } from 'lucide-react';
 import basket from '../assets/prductcards/basket.png'
 import message from '../assets/prductcards/message.png'
 import Table from '@mui/material/Table';
@@ -13,11 +13,12 @@ import user from '../assets/home/user.png'
 import ProductDetails from '../components/productcard/ProductDetails';
 import RelatedProductsSection from '../components/productcard/RelatedProductsSection';
 import { useDispatch, useSelector } from 'react-redux';
-import { movetosaved } from '../ReduxStore/cart/cartReducer';
+import { movetocart, movetosaved } from '../ReduxStore/cart/cartReducer';
 
 const ProductCard = () => {
     const product = useSelector(state => state.cartReducer.viewitem)
     const saveitem = useSelector(state => state.cartReducer.saveditems)
+    const cartitems = useSelector(state => state.cartReducer.cartitems)
     const productCategory = product?.subcategory
     const dispatch = useDispatch()
     const row = [
@@ -51,8 +52,12 @@ const ProductCard = () => {
         },
     ]
     const isSaved = (id) => saveitem.some(item => item.id === id);
+    const isAdded = (id) => cartitems.some(item => item.id === id)
     const toggleWishlist = (id) => {
         dispatch(movetosaved({ id }));
+    };
+    const toggleCart = (id) => {
+        dispatch(movetocart({ id }));
     };
     return (
         <>
@@ -149,10 +154,15 @@ const ProductCard = () => {
                     </div>
                     <button
                         onClick={() => toggleWishlist(product?.id)}
-                        className="flex-shrink-0 flex flex-row gap-2 justify-center items-center p-1 w-full cursor-pointer text-blue-600 hover:text-red-500 rounded-full transition-colors"
+                        className="flex-shrink-0 hover:scale-105 duration-300 flex flex-row gap-2 justify-center items-center p-1 w-full cursor-pointer text-blue-600 hover:text-red-500 rounded-full"
                     >
                      <Heart className={isSaved(product?.id) ? "text-red-500 size-5 fill-red-500" : "text-blue-600 size-5"} />
                         <p className={isSaved(product?.id) ? "text-red-500" : "text-blue-600"}>Save for later</p>
+                    </button>
+                    <button
+                    onClick={() => toggleCart(product?.id)}
+                    className={`flex items-center cursor-pointer justify-center w-full gap-2 hover:scale-105 duration-300 ${isAdded(product?.id) ? 'text-green-500 fill-green-500' : 'text-blue-500 fill-blue-500'}`}>
+                      <ShoppingBasket />  Add to Cart
                     </button>
 
                 </div>

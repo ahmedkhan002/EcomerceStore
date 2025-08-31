@@ -1,64 +1,103 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 import { productData as product } from '../../api/productData';
+import toast from 'react-hot-toast';
 
 const initialState = {
-    cartitems: [],
-    saveditems: [],
-    viewitem: null
-}
+  cartitems: [],
+  saveditems: [],
+  orderDetails:[],
+  viewitem: null,
+};
+
 export const cartReducer = createSlice({
-    name: 'cart',
-    initialState,
-    reducers: {
-        movetosaved: (state, action) => {
-            const itemIndex = product.findIndex(item => item.id === action.payload.id);
+  name: 'cart',
+  initialState,
+  reducers: {
+    movetosaved: (state, action) => {
+      const itemId = action.payload.id;
+      const item = product.find((p) => p.id === itemId);
 
-            if (itemIndex !== -1) {
-                const item = product[itemIndex];
-                const exists = state.saveditems.some(saved => saved.id === item.id);
-                if (!exists) {
-                    state.saveditems.push(item);
-                }
-                state.cartitems = state.cartitems.filter(item => item.id !== action.payload.id);
-            }
-        },
-        movetocart: (state, action) => {
-            const itemIndex = product.findIndex(item => item.id === action.payload.id);
-            if (itemIndex !== -1) {
-                const item = product[itemIndex];
-                state.cartitems.push(item);
-                state.saveditems = state.saveditems.filter(item => item.id !== action.payload.id);
-            }
-        },
-        viewitem: (state, action) => {
-            const itemIndex = product.findIndex(item => item.id === action.payload.id)
-            if (itemIndex !== -1) {
-                state.viewitem = product[itemIndex];
-            }
-        },
-        removefromcart: (state, action) => {
-            const itemIndex = state.cartitems.findIndex(item => item.id === action.payload.id)
-            if (itemIndex !== -1) {
-                const item = state.cartitems[itemIndex];
-                state.cartitems = state.cartitems.filter(i => i !== item)
-            }
-        },
-        increaseQuantity: (state, action) => {
-            const item = state.cartitems.find(i => i.id === action.payload.id);
-            if (item) item.quantity += 1;
-        },
-        decreaseQuantity: (state, action) => {
-            const item = state.cartitems.find(i => i.id === action.payload.id);
-            if (item && item.quantity > 1) {
-                item.quantity -= 1;
-            }
-        },
-        removeall: (state) => {
-            state.cartitems = []
+      if (item) {
+        const exists = state.saveditems.some((saved) => saved.id === itemId);
+        if (exists) {
+          state.saveditems = state.saveditems.filter((saved) => saved.id !== itemId);
+          toast.success('Removed from Saved');
+        } else {
+          state.saveditems.push({ ...item, quantity: 1 });
+          state.cartitems = state.cartitems.filter((c) => c.id !== itemId);
+          toast.success('Moved to Saved');
         }
+      }
     },
-})
 
-export const { movetocart, increaseQuantity, decreaseQuantity, removefromcart, movetosaved, removeall, viewitem } = cartReducer.actions
+    movetocart: (state, action) => {
+      const itemId = action.payload.id;
+      const item = product.find((p) => p.id === itemId);
 
-export default cartReducer.reducer
+      if (item) {
+        const exists = state.cartitems.some((cart) => cart.id === itemId);
+        if (!exists) {
+          state.cartitems.push({ ...item, quantity: 1 });
+          toast.success('Added to Cart');
+        }
+        state.saveditems = state.saveditems.filter((s) => s.id !== itemId);
+      }
+    },
+
+    viewitem: (state, action) => {
+      const itemId = action.payload.id;
+      const item = product.find((p) => p.id === itemId);
+      if (item) {
+        state.viewitem = item;
+      }
+    },
+
+    order: (state, action) => {
+      if (state.cartitems.length < 1) {
+        toast.error('No items in cart');
+        return;
+      }
+      state.orderDetails.push(state.cartitems)
+      toast.success('Order placed successfully');
+      state.cartitems = []
+    },
+
+    removefromcart: (state, action) => {
+      const itemId = action.payload.id;
+      state.cartitems = state.cartitems.filter((item) => item.id !== itemId);
+      toast.success('Removed from Cart');
+    },
+
+    increaseQuantity: (state, action) => {
+      const item = state.cartitems.find((i) => i.id === action.payload.id);
+      if (item) {
+        item.quantity += 1;
+      }
+    },
+
+    decreaseQuantity: (state, action) => {
+      const item = state.cartitems.find((i) => i.id === action.payload.id);
+      if (item && item.quantity > 1) {
+        item.quantity -= 1;
+      }
+    },
+
+    removeall: (state) => {
+      state.cartitems = [];
+      toast.success('Cart Cleared');
+    },
+  },
+});
+
+export const {
+  movetocart,
+  increaseQuantity,
+  decreaseQuantity,
+  removefromcart,
+  movetosaved,
+  removeall,
+  viewitem,
+  order
+} = cartReducer.actions;
+
+export default cartReducer.reducer;

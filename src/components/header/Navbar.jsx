@@ -12,6 +12,52 @@ const Navbar = () => {
     const [sidebar, setsidebar] = useState(false)
     const navigate = useNavigate()
 
+    // Add this function to handle dropdown menu actions
+const handleProfileAction = (action) => {
+  setShowProfileDropdown(false); // Close dropdown first
+  
+  switch(action) {
+    case 'Account':
+      // Navigate to account/profile page
+      navigate('/auth'); // or wherever your profile page is
+      break;
+      
+    case 'Settings':
+      // Navigate to settings page
+      navigate('/settings');
+      break;
+      
+    case 'Logout':
+      // Handle logout
+      handleLogout();
+      break;
+      
+    default:
+      break;
+  }
+};
+
+
+// Add logout function
+const handleLogout = () => {
+  // Clear user session
+  window.currentUser = null;
+  
+  // Clear any other user-related data if needed
+  // localStorage.removeItem('currentUser'); // if you were using localStorage
+  
+  // Show logout message (optional)
+  // setMessage("👋 Logged out successfully!");
+  
+  // Navigate to login page
+  navigate('/auth'); // or '/login' depending on your route
+  
+  // Or you could reload the page to reset everything
+  // window.location.reload();
+};
+
+console.log(window.currentUser)
+
     return (
         <nav>
             <div className='h-20 justify-between gap-6 flex items-center text-black px-4'>
@@ -64,21 +110,39 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {/* Placeholder for future buttons (20%) */}
                 <div className='flex items-center justify-end'>
-                    {/* Profile Dropdown */}
                     <div className="relative mx-2 flex flex-col items-center">
-                        <button type="button" className="max-lg:hidden cursor-pointer flex flex-col items-center" onMouseLeave={() => setShowProfileDropdown(false)} onClick={() => setShowProfileDropdown(!showProfileDropdown)} onMouseOver={() => setShowProfileDropdown(true)}>
+                        <button
+                            type="button"
+                            className="max-lg:hidden cursor-pointer flex flex-col items-center"
+                            onMouseLeave={() => setShowProfileDropdown(false)}
+                            onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                            onMouseOver={() => setShowProfileDropdown(true)}
+                        >
                             <User className='size-4 text-gray-500' />
                             <p className='text-xs font-semibold text-gray-500 flex text-nowrap'>Profile</p>
                         </button>
-                        <button type="button" className="max-lg:flex hidden cursor-pointer flex-col items-center" onClick={() => setShowProfileDropdown(!showProfileDropdown)}>
-                            <User className='size-5 text-black ' />
+
+                        <button
+                            type="button"
+                            className="max-lg:flex hidden cursor-pointer flex-col items-center"
+                            onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                        >
+                            <User className='size-5 text-black' />
                         </button>
+
                         {showProfileDropdown && (
-                            <div onMouseOver={() => setShowProfileDropdown(true)} onMouseLeave={() => setShowProfileDropdown(false)} className="absolute mt-8 w-32 bg-white border border-gray-200 rounded shadow-lg z-10">
+                            <div
+                                onMouseOver={() => setShowProfileDropdown(true)}
+                                onMouseLeave={() => setShowProfileDropdown(false)}
+                                className="absolute mt-8 w-32 bg-white border border-gray-200 rounded shadow-lg z-10"
+                            >
                                 {['Account', 'Settings', 'Logout'].map((option) => (
-                                    <div key={option} className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700" onClick={() => setShowProfileDropdown(false)}>
+                                    <div
+                                        key={option}
+                                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700"
+                                        onClick={() => handleProfileAction(option)}
+                                    >
                                         {option}
                                     </div>
                                 ))}
@@ -87,11 +151,11 @@ const Navbar = () => {
                     </div>
                     {/* Other icons */}
                     <div className='flex items-center'>
-                        <div className='flex max-lg:hidden flex-col items-center space-x-1 mx-2'>
+                        <div onClick={() => navigate('/chat')} className='flex cursor-pointer max-lg:hidden flex-col items-center space-x-1 mx-2'>
                             <MessageSquare className='size-4 text-gray-500' />
                             <p className='text-xs font-semibold text-gray-500 flex text-nowrap'>Message</p>
                         </div>
-                        <div className='flex max-lg:hidden flex-col items-center space-x-1 mx-2'>
+                        <div onClick={() => navigate('orders')} className='flex cursor-pointer max-lg:hidden flex-col items-center space-x-1 mx-2'>
                             <Heart className='size-4 text-gray-500' />
                             <p className='text-xs font-semibold text-gray-500 flex text-nowrap'>Orders</p>
                         </div>
@@ -111,7 +175,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-           <MobileCatBar />
+            <MobileCatBar />
         </nav>
     )
 }

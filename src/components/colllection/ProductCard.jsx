@@ -7,6 +7,7 @@ import { movetosaved, viewitem } from '../../ReduxStore/cart/cartReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router';
 import { getProductLength } from '../../ReduxStore/counter/filterbar';
+import toast from 'react-hot-toast';
 
 const ProductCard = ({ productKey, productValue, layout }) => {
     const dispatch = useDispatch()
@@ -45,6 +46,7 @@ const ProductCard = ({ productKey, productValue, layout }) => {
     const isSaved = (id) => saveitem?.some(item => item.id === id);
 
     const toggleWishlist = (id) => {
+        // toast.success('Product Added To Wishlist')
         dispatch(movetosaved({ id }));
     };
 
@@ -78,17 +80,17 @@ const ProductCard = ({ productKey, productValue, layout }) => {
         <>
             <div className={`flex gap-4 ${layout ? 'flex-col' : 'flex-row flex-wrap justify-center'}`}>
                 {currentItems.map((item, i) => (
-                    <div key={i} className={`bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow duration-200 ${layout ? 'max-w-full' : 'min-w-80 max-w-[48%]'}`}>
-                        <div className={`gap-4 flex ${layout ? 'flex-row' : 'flex-col items-center'}`}>
+                    <div key={i} className={`bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg overflow-hidden transition-shadow duration-200 ${layout ? 'max-w-full max-sm:min-w-80 max-[]:sm:max-w-[48%]' : 'min-w-80 max-w-[48%]'}`}>
+                        <div className={`gap-4 flex ${layout ? 'flex-row max-sm:flex-col max-sm:items-center' : 'flex-col items-center'}`}>
                             {/* Product Image */}
                             <div className="flex-shrink-0">
                                 <div className="min-w-24 flex items-center justify-center max-w-40 h-full bg-gradient-to-br rounded-lg relative overflow-hidden">
-                                    <img src={item.images[0]} alt={item.name} className='w-full' />
+                                    <img src={item.images[0]} alt={item.name} className='w-full object-contain' />
                                 </div>
                             </div>
 
                             {/* Product Details */}
-                            <div className={`flex-grow min-w-0 ${layout ? '' : 'items-center justify-center flex flex-col'}`}>
+                            <div className={`flex-grow min-w-0 ${layout ? 'max-sm:items-center max-sm:justify-center max-sm:flex max-sm:flex-col' : 'items-center justify-center flex flex-col'}`}>
                                 <div className="flex justify-between items-start mb-2">
                                     <h3 className="text-sm font-medium text-gray-900 line-clamp-2 pr-2">{item.name}</h3>
                                     <button
@@ -111,7 +113,7 @@ const ProductCard = ({ productKey, productValue, layout }) => {
                                 </div>
 
                                 {/* Rating and Orders */}
-                                <div className={`flex items-center flex-wrap gap-4 mb-2 ${layout ? 'justify-start' : 'justify-center'}`}>
+                                <div className={`flex items-center flex-wrap gap-4 mb-2 ${layout ? 'justify-start max-sm:justify-center' : 'justify-center'}`}>
                                     <div className="flex items-center gap-1">
                                         {renderStars(item.rating)}
                                         <span className="text-sm text-gray-600 ml-1">{item.rating}</span>
@@ -131,7 +133,7 @@ const ProductCard = ({ productKey, productValue, layout }) => {
 
                                 <NavLink to='/product'
                                     onClick={() => dispatch(viewitem({ id: item.id }))}
-                                    className="text-sm text-blue-500 hover:text-blue-700 font-medium transition-colors"
+                                    className="text-sm text-blue-500 border px-4 py-1 rounded-lg cursor-pointer hover:text-white hover:bg-blue-500 font-medium transition-colors"
                                 >
                                     View details
                                 </NavLink>

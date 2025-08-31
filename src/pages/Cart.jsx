@@ -10,14 +10,16 @@ import chat from '../assets/cart/chat.png';
 import delivery from '../assets/cart/delivery.png';
 import SavedProducts from '../components/cart/SavedProducts';
 import { useDispatch, useSelector } from 'react-redux';
-import { decreaseQuantity, increaseQuantity, removefromcart, movetosaved, removeall } from '../ReduxStore/cart/cartReducer';
-import { NavLink } from 'react-router';
-import {productData} from '../api/productData'
+import { decreaseQuantity, increaseQuantity, removefromcart, movetosaved, removeall, order } from '../ReduxStore/cart/cartReducer';
+import { NavLink, useNavigate } from 'react-router';
+import { productData } from '../api/productData'
+import toast from 'react-hot-toast';
 
 
 const Cart = () => {
   const cart = useSelector((state) => state.cartReducer.cartitems)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const paymentMethods = [
     { name: 'American Express', image: americanexpress },
     { name: 'MasterCard', image: mastercard },
@@ -47,10 +49,6 @@ const Cart = () => {
   const [appliedCoupon, setAppliedCoupon] = useState(null);
 
 
-  const removeItem = (id) => {
-    cart.filter((item => item.id !== id));
-  };
-
   const applyCoupon = () => {
     if (couponCode.trim()) {
       setAppliedCoupon({
@@ -65,6 +63,15 @@ const Cart = () => {
   const discount = appliedCoupon ? appliedCoupon.discount : 60;
   const tax = 14.00;
   const total = subtotal - discount + tax;
+
+  const handleCheckout = () => {
+    if (!window.currentUser) {
+      toast.error('User Not Authorized')
+     return navigate('/auth')
+    }
+    dispatch(order());
+
+  }
 
   return (
     <>
@@ -93,12 +100,12 @@ const Cart = () => {
 
                   {/* Action Links */}
                   <div className="flex items-center space-x-4 font-semibold text-sm">
-                    <button onClick={() => dispatch(removefromcart({id : item.id}))} className="text-red-500 hover:text-red-700 border border-gray-300 rounded-lg px-2 py-1">
+                    <button onClick={() => dispatch(removefromcart({ id: item.id }))} className="text-red-500 hover:text-red-700 border border-gray-300 rounded-lg px-2 py-1">
                       Remove
                     </button>
-                      <button onClick={() => dispatch(movetosaved({id: item.id}))} className="text-blue-500 hover:text-blue-700 border border-gray-300 rounded-lg px-2 py-1">
-                        Save for later
-                      </button>
+                    <button onClick={() => dispatch(movetosaved({ id: item.id }))} className="text-blue-500 hover:text-blue-700 border border-gray-300 rounded-lg px-2 py-1">
+                      Save for later
+                    </button>
                   </div>
                 </div>
 
@@ -141,7 +148,7 @@ const Cart = () => {
           )}
 
           {/* Bottom Actions */}
-          <div className="flex absolute bottom-5 flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0 pt-4">
+          <div className="flex w-full px-10 absolute bottom-5 flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0 pt-4">
             <NavLink to='/collection' className="bg-blue-500 flex gap-2 cursor-pointer text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors font-medium">
               <ArrowLeft className='inline' /> Back to shop
             </NavLink>
@@ -209,7 +216,7 @@ const Cart = () => {
             </div>
 
             {/* Checkout Button */}
-            <button className="w-full bg-[#00B517] hover:bg-[#00b518d1] text-white py-3 px-4 rounded-lg transition-colors font-semibold text-lg mb-4">
+            <button onClick={handleCheckout} className="w-full bg-[#00B517] hover:bg-[#00b518d1] text-white py-3 px-4 rounded-lg transition-colors font-semibold text-lg mb-4">
               Checkout
             </button>
 
@@ -230,20 +237,19 @@ const Cart = () => {
         </div>
       </div>
       <div className="flex min-h-20 my-8 items-center max-md:justify-center max-md:gap-6 max-sm:gap-5 gap-8">
-          {support.map((item, i) => (
-            <div key={i} className="flex max-sm:flex-col justify-center items-center gap-2">
-              <span className='size-15 max-sm:size-10 max-lg:size-12  flex items-center justify-center bg-gray-200 rounded-full'>
+        {support.map((item, i) => (
+          <div key={i} className="flex max-sm:flex-col justify-center items-center gap-2">
+            <span className='size-15 max-sm:size-10 max-lg:size-12  flex items-center justify-center bg-gray-200 rounded-full'>
               <img src={item.image} alt={item.title} className='h-6 max-md:h-4' />
-              </span>
-              <div>
-                <p className='text-lg max-sm:text-sm md:text-base max-sm:text-center'>{item.title}</p>
-                <p className='text-gray-400 max-md:text-xs max-sm:text-center'>{item.description}</p>
-              </div>
+            </span>
+            <div>
+              <p className='text-lg max-sm:text-sm md:text-base max-sm:text-center'>{item.title}</p>
+              <p className='text-gray-400 max-md:text-xs max-sm:text-center'>{item.description}</p>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
       <div>
-        {/* Saved Products Section */}
         <SavedProducts product />
       </div>
     </>

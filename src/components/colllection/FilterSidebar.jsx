@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp, Star } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilter, toggleArrayFilter } from "../../ReduxStore/counter/filterbar";
+import { setFilter, toggleArrayFilter, removefilter } from "../../ReduxStore/counter/filterbar";
 import { productData } from "../../api/productData";
 import RangeSlider from "./RangeSlider";
 import {
@@ -13,7 +13,7 @@ import {
   RadioGroup,
 } from "@mui/material";
 
-const FilterSidebar = ({ filterCategory = "Electronics" }) => {
+const FilterSidebar = ({ filterCategory }) => {
   const dispatch = useDispatch();
 
   // 1️⃣ Prepare unique filter options from products
@@ -65,20 +65,20 @@ const FilterSidebar = ({ filterCategory = "Electronics" }) => {
   const handleConditionChange = (e) => {
     const value = e.target.value;
     setFilters((prev) => ({ ...prev, condition: value }));
-    dispatch(setFilter({ key: "condition", value }));
+    dispatch(toggleArrayFilter({ key: "condition", value }));
   };
 
 
   const handleRatingChange = (rating) => {
     const newValue = filters.rating === rating ? null : rating;
     setFilters((prev) => ({ ...prev, rating: newValue }));
-    dispatch(setFilter({ key: "rating", value: newValue }));
+    dispatch(toggleArrayFilter({ key: "rating", value: newValue }));
   };
 
   // 6️⃣ Price Range
   const handlePriceChange = (range) => {
     setFilters((prev) => ({ ...prev, priceRange: range }));
-    dispatch(setFilter({ key: "priceRange", value: range }));
+    dispatch(toggleArrayFilter({ key: "priceRange", value: range }));
   };
 
   // ⭐ Utility for rendering stars

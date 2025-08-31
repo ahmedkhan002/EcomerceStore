@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import logo from '../../assets/header/logo.png'
 import { User, MessageSquare, Heart, ShoppingCart, ChevronDown, X, Menu, Search } from 'lucide-react'
 import Sidebar from './Sidebar'
-import { NavLink } from 'react-router'
+import { NavLink, useNavigate } from 'react-router'
 import MobileCatBar from './MobileCatBar'
 
 const Navbar = () => {
@@ -10,6 +10,7 @@ const Navbar = () => {
     const [showCatDropdown, setShowCatDropdown] = useState(false)
     const [catType, setCatype] = useState('All Categories')
     const [sidebar, setsidebar] = useState(false)
+    const navigate = useNavigate()
 
     return (
         <nav>
@@ -24,7 +25,7 @@ const Navbar = () => {
 
                     </button>
                     <Sidebar isOpen={sidebar} onClose={() => setsidebar(false)} />
-                    <div className='flex items-center cursor-pointer space-x-2'>
+                    <div onClick={() => navigate('/')} className='flex items-center cursor-pointer space-x-2'>
                         <div className='bg-blue-500 w-10 h-10 max-sm:h-8 max-sm:w-8 flex items-center justify-center rounded-xl'>
                             <img src={logo} alt="Logo" className='max-sm:h-5' />
                         </div>

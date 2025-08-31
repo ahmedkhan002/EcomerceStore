@@ -1,5 +1,5 @@
-import React from 'react'
-import bgcover from '../../assets/home/supplierform/bgcover.png'
+import React from "react";
+import bgcover from "../../assets/home/supplierform/bgcover.png";
 
 const ReqSupplier = () => {
   return (
@@ -17,25 +17,31 @@ const ReqSupplier = () => {
             An easy way to send <br /> requests to all suppliers
           </h1>
           <p className="text-sm lg:text-base">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt.
           </p>
         </div>
 
         {/* Right form block */}
-        <div className="bg-white px-6 py-8 rounded-lg shadow-md w-full max-w-md max-md:hidden md:block lg:block">
-          <h2 className="text-gray-900 text-base font-semibold mb-4">Send quote to suppliers</h2>
+        <form className="bg-white px-6 py-8 rounded-lg shadow-md w-full max-w-md max-md:hidden md:block lg:block">
+          <h2 className="text-gray-900 text-base font-semibold mb-4">
+            Send quote to suppliers
+          </h2>
           <input
+            required
             type="text"
             placeholder="What item you need?"
             className="w-full border border-gray-300 rounded-md px-3 py-2 mb-3 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
           <textarea
+            required
             placeholder="Type more details"
             rows="3"
             className="w-full border border-gray-300 rounded-md px-3 py-2 mb-3 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-blue-500"
           ></textarea>
           <div className="flex gap-2 mb-3">
             <input
+              required
               type="text"
               placeholder="Quantity"
               className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -49,10 +55,10 @@ const ReqSupplier = () => {
           <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded-md w-full">
             Send inquiry
           </button>
-        </div>
+        </form>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default ReqSupplier
+export default ReqSupplier;

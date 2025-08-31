@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import smartwatch from '../../assets/home/weeklydeals/smartwatch.png'
 import laptop from '../../assets/home/weeklydeals/laptop.png'
 import gopro from '../../assets/home/weeklydeals/gopro.png'
@@ -7,6 +7,50 @@ import mobile from '../../assets/home/weeklydeals/mobile.png'
 
 const WeeklyDeals = () => {
     const scrollContainerRef = useRef(null)
+    
+    // Countdown timer state
+    const [timeLeft, setTimeLeft] = useState({
+        days: 4,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+    })
+
+    // Timer effect
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft(prevTime => {
+                let { days, hours, minutes, seconds } = prevTime
+                
+                // Decrease seconds
+                if (seconds > 0) {
+                    seconds--
+                } else if (minutes > 0) {
+                    minutes--
+                    seconds = 59
+                } else if (hours > 0) {
+                    hours--
+                    minutes = 59
+                    seconds = 59
+                } else if (days > 0) {
+                    days--
+                    hours = 23
+                    minutes = 59
+                    seconds = 59
+                } else {
+                    // Timer reached zero, restart to 4 days
+                    days = 4
+                    hours = 0
+                    minutes = 0
+                    seconds = 0
+                }
+                
+                return { days, hours, minutes, seconds }
+            })
+        }, 1000)
+
+        return () => clearInterval(timer)
+    }, [])
 
     const Items = [
         {
@@ -67,19 +111,19 @@ const WeeklyDeals = () => {
 
                 <div className='flex gap-3 mt-4 max-md:mt-0 text-white max-md:text-[#969595]'>
                     <div className='flex flex-col items-center justify-center rounded-md max-sm:w-10 w-12 max-sm:py-0.5 py-1 max-md:bg-slate-200 bg-[#606060]'>
-                        <p className='text-lg font-semibold'>04</p>
+                        <p className='text-lg font-semibold'>{timeLeft.days.toString().padStart(2, '0')}</p>
                         <p className='text-slate-200 max-md:text-[#868686] text-xs'>Days</p>
                     </div>
                     <div className='flex flex-col items-center justify-center rounded-md max-sm:w-10 w-12 max-sm:py-0.5 py-1 max-md:bg-slate-200 bg-[#606060]'>
-                        <p className='text-lg font-semibold'>13</p>
+                        <p className='text-lg font-semibold'>{timeLeft.hours.toString().padStart(2, '0')}</p>
                         <p className='text-slate-200 max-md:text-[#868686] text-xs'>Hour</p>
                     </div>
                     <div className='flex flex-col items-center justify-center rounded-md max-sm:w-10 w-12 max-sm:py-0.5 py-1 max-md:bg-slate-200 bg-[#606060]'>
-                        <p className='text-lg font-semibold'>34</p>
+                        <p className='text-lg font-semibold'>{timeLeft.minutes.toString().padStart(2, '0')}</p>
                         <p className='text-slate-200 max-md:text-[#868686] text-xs'>Min</p>
                     </div>
                     <div className='flex flex-col max-sm:hidden items-center justify-center rounded-md max-sm:w-10 w-12 max-sm:py-0.5 py-1 max-md:bg-slate-200 bg-[#606060]'>
-                        <p className='text-lg font-semibold'>56</p>
+                        <p className='text-lg font-semibold'>{timeLeft.seconds.toString().padStart(2, '0')}</p>
                         <p className='text-slate-200 max-md:text-[#868686] text-xs'>Sec</p>
                     </div>
                 </div>

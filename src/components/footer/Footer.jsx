@@ -87,8 +87,8 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div className='flex flex-wrap flex-col max-lg:justify-center gap-2'>
-          <h1 className='text-black font-semibold'>Get App</h1>
+        <div className='flex flex-wrap flex-col max-lg:justify-center gap-2 max-sm:mx-auto'>
+          <h1 className='text-black font-semibold max-sm:text-center'>Get App</h1>
           <div
             className='flex flex-row mt-2 group gap-2 hover:scale-105 cursor-pointer duration-150 py-2 px-3 w-35 rounded-xl bg-black text-white items-center'>
             <div className='h-8'>

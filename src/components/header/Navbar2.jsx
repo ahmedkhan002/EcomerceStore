@@ -1,69 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import { Menu, ChevronDown, MapPin } from 'lucide-react';
-import { NavLink } from 'react-router';
-import AE from '../../assets/header/flags/AE.png'
-import AU from '../../assets/header/flags/AU.png'
-import CN from '../../assets/header/flags/CN.png'
-import DE from '../../assets/header/flags/DE.png'
-import DK from '../../assets/header/flags/DK.png'
-import FR from '../../assets/header/flags/FR.png'
-import GB from '../../assets/header/flags/GB.png'
-import IT from '../../assets/header/flags/IT.png'
-import RU from '../../assets/header/flags/RU.png'
-import US from '../../assets/header/flags/US.png'
-import { useDispatch } from 'react-redux';
-import { setFilter } from '../../ReduxStore/counter/filterbar';
-
+import React, { useEffect, useState } from "react";
+import { Menu, ChevronDown, MapPin } from "lucide-react";
+import { NavLink, useNavigate } from "react-router";
+import AE from "../../assets/header/flags/AE.png";
+import AU from "../../assets/header/flags/AU.png";
+import CN from "../../assets/header/flags/CN.png";
+import DE from "../../assets/header/flags/DE.png";
+import DK from "../../assets/header/flags/DK.png";
+import FR from "../../assets/header/flags/FR.png";
+import GB from "../../assets/header/flags/GB.png";
+import IT from "../../assets/header/flags/IT.png";
+import RU from "../../assets/header/flags/RU.png";
+import US from "../../assets/header/flags/US.png";
+import { useDispatch } from "react-redux";
+import { setFilter } from "../../ReduxStore/counter/filterbar";
 
 const Nav2 = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const flags = [
     {
       icon: DE,
-      name: 'Germony'
+      name: "Germony",
     },
     {
       icon: AE,
-      name: 'UAE'
+      name: "UAE",
     },
     {
       icon: AU,
-      name: 'Austrailia'
+      name: "Austrailia",
     },
     {
       icon: CN,
-      name: 'China'
+      name: "China",
     },
     {
       icon: IT,
-      name: 'Italy'
+      name: "Italy",
     },
     {
       icon: DK,
-      name: 'Denmark'
+      name: "Denmark",
     },
     {
       icon: FR,
-      name: 'France'
+      name: "France",
     },
     {
       icon: GB,
-      name: 'England'
+      name: "England",
     },
     {
       icon: RU,
-      name: 'Russia'
+      name: "Russia",
     },
     {
       icon: US,
-      name: 'USA'
-    }
-  ]
+      name: "USA",
+    },
+  ];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(false);
   const [locationDropdown, setlocationDropdown] = useState(false);
-  const [currCountry, setcurCountry] = useState(flags[0])
+  const [currCountry, setcurCountry] = useState(flags[0]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -74,14 +74,12 @@ const Nav2 = () => {
   };
 
   const handleItemClick = (item) => {
-    if (item === 'All Categories') {
-      dispatch(setFilter({ key: 'category', value: null })); 
+    if (item === "All Categories") {
+      dispatch(setFilter({ key: "category", value: null }));
     }
-    dispatch(setFilter({ key: 'category', value: item })); 
-    setActiveDropdown(!activeDropdown)
+    dispatch(setFilter({ key: "category", value: item }));
+    setActiveDropdown(!activeDropdown);
   };
-
-
 
   return (
     <nav className="bg-white ">
@@ -91,23 +89,27 @@ const Nav2 = () => {
             {/* All Categories */}
             <div className="relative">
               <button
-                onMouseOver={() => toggleDropdown('categories')}
-                className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 transition-colors cursor-pointer"
+                onMouseOver={() => toggleDropdown("categories")}
+                className="flex items-center text-sm font-semibold space-x-1 text-gray-700 hover:text-gray-900 transition-colors cursor-pointer"
               >
-                <Menu className="h-4 w-4" />
-                <p
-                  className="text-sm font-medium cursor-pointer"
-                >
+                <Menu className="h-4 w-4 mr-2" />
+                
                   All category
-                </p>
               </button>
 
-              {activeDropdown === 'categories' && (
+              {activeDropdown === "categories" && (
                 <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
                   <div className="py-1">
-                    {['Electronics', 'Fashion', 'Home & Garden', 'Sports', 'Books', 'Health & Beauty'].map((category) => (
+                    {[
+                      "Electronics",
+                      "Fashion",
+                      "Furniture",
+                      "Sports",
+                      "Books",
+                      "Health & Beauty",
+                    ].map((category) => (
                       <NavLink
-                        to='/collection'
+                        to="/collection"
                         key={category}
                         onClick={() => handleItemClick(category)}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 cursor-pointer"
@@ -120,29 +122,28 @@ const Nav2 = () => {
               )}
             </div>
 
-
             {/* Navigation Links */}
             <div className="hidden lg:flex items-center space-x-8">
               <button
-                onClick={() => handleItemClick('Hot offers')}
+                onClick={() => handleItemClick("Hot offers")}
                 className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
               >
                 Hot offers
               </button>
               <button
-                onClick={() => handleItemClick('Gift boxes')}
+                onClick={() => handleItemClick("Gift boxes")}
                 className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
               >
                 Gift boxes
               </button>
               <button
-                onClick={() => handleItemClick('Projects')}
+                onClick={() => handleItemClick("Projects")}
                 className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
               >
                 Projects
               </button>
               <button
-                onClick={() => handleItemClick('Menu item')}
+                onClick={() => handleItemClick("Menu item")}
                 className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
               >
                 Menu item
@@ -151,16 +152,27 @@ const Nav2 = () => {
               {/* Help Dropdown */}
               <div className="relative">
                 <button
-                  onClick={() => toggleDropdown('help')}
+                  onClick={() => toggleDropdown("help")}
                   className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 transition-colors"
                 >
                   <span className="text-sm font-medium">Help</span>
                   <ChevronDown className="h-4 w-4" />
                 </button>
-                {activeDropdown === 'help' && (
+                {activeDropdown === "help" && (
                   <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
                     <div className="py-1">
-                      {['Customer Service', 'Track Your Order', 'Returns & Refunds', 'Shipping Information', 'FAQ', 'Size Guide', 'Contact Us', 'Live Chat', 'Report an Issue', 'Account Help'].map((helpItem) => (
+                      {[
+                        "Customer Service",
+                        "Track Your Order",
+                        "Returns & Refunds",
+                        "Shipping Information",
+                        "FAQ",
+                        "Size Guide",
+                        "Contact Us",
+                        "Live Chat",
+                        "Report an Issue",
+                        "Account Help",
+                      ].map((helpItem) => (
                         <button
                           key={helpItem}
                           onClick={() => handleItemClick(helpItem)}
@@ -178,22 +190,21 @@ const Nav2 = () => {
 
           {/* Right Section - Language, Currency, Location */}
           <div className="flex items-center space-x-6">
-
             <div className="relative">
               <button
-                onClick={() => toggleDropdown('language')}
+                onClick={() => toggleDropdown("language")}
                 className="flex items-center cursor-pointer space-x-1 text-gray-700 hover:text-gray-900 transition-colors"
               >
                 <span className="text-sm font-medium">English, USD</span>
                 <ChevronDown className="h-4 w-4" />
               </button>
-              {activeDropdown === 'language' && (
+              {activeDropdown === "language" && (
                 <div className="absolute top-full right-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
                   <div className="py-1">
-                    {['English, USD'].map((option) => (
+                    {["English, USD"].map((option) => (
                       <button
                         key={option}
-                        onClick={() => handleItemClick(option,)}
+                        onClick={() => handleItemClick(option)}
                         className="block cursor-pointer w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                       >
                         {option}
@@ -211,7 +222,7 @@ const Nav2 = () => {
                 className="flex cursor-pointer items-center space-x-1 text-gray-700 hover:text-gray-900 transition-colors"
               >
                 <span className="text-sm font-medium">Ship to</span>
-                <img src={currCountry.icon} alt='404' className='h-4' />
+                <img src={currCountry.icon} alt="404" className="h-4" />
                 <ChevronDown className="h-4 w-4" />
               </button>
               {locationDropdown && (
@@ -220,7 +231,10 @@ const Nav2 = () => {
                     {flags.map((country) => (
                       <button
                         key={country.name}
-                        onClick={() => { setcurCountry(country); setlocationDropdown(!locationDropdown) }}
+                        onClick={() => {
+                          setcurCountry(country);
+                          setlocationDropdown(!locationDropdown);
+                        }}
                         className="flex cursor-pointer items-center space-x-2 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                       >
                         <MapPin className="h-4 w-4" />
@@ -243,7 +257,6 @@ const Nav2 = () => {
             </button>
           </div>
         </div>
-
       </div>
 
       {activeDropdown && (
@@ -252,7 +265,6 @@ const Nav2 = () => {
           onClick={() => setActiveDropdown(null)}
         />
       )}
-
     </nav>
   );
 };

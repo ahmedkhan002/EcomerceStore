@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  activefilter: [],
+  productLength: null,
+  currentCateory: null,
+  activefilter:[],
   filters: {
     category: null,
     subcategories: [],
@@ -20,6 +22,7 @@ const filterbar = createSlice({
     setFilter: (state, action) => {
       const { key, value } = action.payload;
       state.filters[key] = value
+      state.currentCateory = value
 
     },
     toggleArrayFilter: (state, action) => {
@@ -36,9 +39,12 @@ const filterbar = createSlice({
     },
     removefilter: (state, action) => {
       state.activefilter = state.activefilter.filter(item => item !== action.payload)
+    },
+    getProductLength: (state, action) => {
+      state.productLength = action.payload
     }
   },
 });
 
-export const { setFilter, toggleArrayFilter, resetFilters, removefilter } = filterbar.actions;
+export const { setFilter, toggleArrayFilter, resetFilters, removefilter, getProductLength } = filterbar.actions;
 export default filterbar.reducer;

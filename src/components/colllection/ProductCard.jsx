@@ -6,6 +6,7 @@ import Pagination from '@mui/material/Pagination';
 import { movetosaved, viewitem } from '../../ReduxStore/cart/cartReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router';
+import { getProductLength } from '../../ReduxStore/counter/filterbar';
 
 const ProductCard = ({ productKey, productValue, layout }) => {
     const dispatch = useDispatch()
@@ -14,9 +15,9 @@ const ProductCard = ({ productKey, productValue, layout }) => {
     const [page, setPage] = useState(1);
     const [itemsPerPage, setitemsPerPage] = useState(10);
 
-
     const filters = useSelector((state) => state.filterbar.filters);
     const saveitem = useSelector(state => state.cartReducer.saveditems)
+    const productLength = useSelector(state => state.filterbar.productLength)
 
     const filteredProducts = product.filter((item) => {
         const { category, subcategories, brands, features, condition, rating, priceRange } = filters;
@@ -70,6 +71,9 @@ const ProductCard = ({ productKey, productValue, layout }) => {
         setitemsPerPage(10)
     }, [productKey, productValue]);
 
+    useEffect(() => {
+        dispatch(getProductLength(filteredProducts.length))
+    },[dispatch, filteredProducts])
     return (
         <>
             <div className={`flex gap-4 ${layout ? 'flex-col' : 'flex-row flex-wrap justify-center'}`}>
